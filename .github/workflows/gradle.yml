@@ -34,5 +34,15 @@ jobs:
       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
       with:
         arguments: build
-    - name: Inspect
-      run: ls -lrt .
+    - name: Package
+      run: |
+        mkdir -p out
+        cp ./baksmali/build/libs/baksmali.jar out/
+        cp ./smali/build/libs/smali.jar out/
+    
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifact
+        path:  out
+        if-no-files-found: error
